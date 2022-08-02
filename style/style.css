@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 5em;
+    margin: 0;
+}
+
+.wrapper {
+    width: 640px;
+    background-color: antiquewhite;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border: #333 solid 1px;
+}
+
+.grid {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    border: #333 solid 1px;
+}
