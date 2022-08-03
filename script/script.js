@@ -2,31 +2,24 @@ const black = "rgb(51, 51, 51)";
 const erase = "rgb(255, 255, 255)"
 const wrapper = document.querySelector(".wrapper");
 const brushBtns = document.querySelectorAll(".brushOptions button");
+const slider = document.querySelector("#slider");
+const checkbox = document.querySelector("#checkbox");
 let currentBrush;
 let divs;
 let gridSize = 32;
 
-createGrid(gridSize);
-
-function clearGrid() {
-    wrapper.textContent = "";
-}
-
-function createGrid(gridSize){
-    clearGrid();
-    for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-            wrapper.append(document.createElement("div"));
-        }
-    }
-    setGridStyle();
-}
-
-const slider = document.querySelector("#slider");
 slider.addEventListener("change", () => {
     gridSize = slider.value;
     createGrid(gridSize);
 });
+
+checkbox.addEventListener("click", ()=> {
+    if (checkbox.checked) {
+        setGridStyle(true)
+    } else {
+        setGridStyle(false)
+    }
+})
 
 brushBtns.forEach(btn => {
     btn.addEventListener("click", () => verifyButton(btn.id))
@@ -50,17 +43,32 @@ brushBtns.forEach(btn => {
     }
 });
 
-function setGridStyle() {
+createGrid(gridSize);
+
+function clearGrid() {
+    wrapper.textContent = "";
+}
+
+function createGrid(gridSize){
+    clearGrid();
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            wrapper.append(document.createElement("div"));
+        }
+    }
+    setGridStyle(checkbox.checked);
+}
+function setGridStyle(checkbox) {
     let divSize = 640 / gridSize;
     divs = document.querySelectorAll(".wrapper div");
     divs.forEach(div => {
+        checkbox ? div.classList.add("showGrid") : div.classList.remove("showGrid");
         div.classList.add("grid")
         div.style.width = divSize + "px";
         div.style.height = divSize + "px";
         div.addEventListener("mouseover", () => div.style.background = currentColor(currentBrush));
-    })
+    });
 }
-
 function currentColor(color){
     switch(color) {
         case "rainbow":
@@ -71,7 +79,6 @@ function currentColor(color){
             return black;
     }
 }
-
 function randomColor() {
     let r = Math.floor(Math.random() * 256);
     let g = Math.floor(Math.random() * 256);
