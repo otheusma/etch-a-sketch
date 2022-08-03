@@ -4,14 +4,12 @@ const wrapper = document.querySelector(".wrapper");
 const brushBtns = document.querySelectorAll(".brushOptions button");
 const slider = document.querySelector("#slider");
 const checkbox = document.querySelector("#checkbox");
+const sliderText = document.querySelector("#sliderText");
 let currentBrush;
 let divs;
 let gridSize = 32;
 
-let isMouseDown = false;
-
-const sliderText = document.querySelector("#sliderText");
-
+createGrid(gridSize);
 
 slider.addEventListener("input", () => {
     if(slider.value < 10) {
@@ -35,11 +33,11 @@ checkbox.addEventListener("click", ()=> {
 })
 
 brushBtns.forEach(btn => btn.addEventListener("click", () => {
-    brushBtns.forEach(btn => btn.classList.remove("selected"))
+    brushBtns.forEach(btn => btn.classList.remove("selected"));
     verifyButton(btn.id);
-    btn.classList.add("selected");
+
+    btn.id === "clear" || btn.classList.add("selected");
 }));
-    
 
 function verifyButton(btnId) {
     switch(btnId) {
@@ -53,17 +51,12 @@ function verifyButton(btnId) {
             currentBrush = "erase";
             break;
         case "clear":
-            btn.classList.remove("selected");
             divs.forEach(div => {
                 div.style.background = "white";
-                
             })
             break;
     }
 }
-
-createGrid(gridSize);
-
 function clearGrid() {
     wrapper.textContent = "";
 }
