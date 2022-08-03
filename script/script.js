@@ -8,6 +8,19 @@ let currentBrush;
 let divs;
 let gridSize = 32;
 
+let isMouseDown = false;
+
+const sliderText = document.querySelector("#sliderText");
+
+
+slider.addEventListener("input", () => {
+    if(slider.value < 10) {
+        sliderText.innerHTML = `0${slider.value}x0${slider.value}`;
+    } else {
+        sliderText.innerHTML = `${slider.value}x${slider.value}`;
+    }
+})
+
 slider.addEventListener("change", () => {
     gridSize = slider.value;
     createGrid(gridSize);
@@ -21,27 +34,33 @@ checkbox.addEventListener("click", ()=> {
     }
 })
 
-brushBtns.forEach(btn => {
-    btn.addEventListener("click", () => verifyButton(btn.id))
-    function verifyButton(btnId) {
-        switch(btnId) {
-            case "black": 
-                currentBrush = "black";
-                break;
-            case "rainbow":
-                currentBrush = "rainbow";
-                break;
-            case "erase":
-                currentBrush = "erase";
-                break;
-            case "clear":
-                divs.forEach(div => {
-                    div.style.background = "white";
-                })
-                break;
-        }
+brushBtns.forEach(btn => btn.addEventListener("click", () => {
+    brushBtns.forEach(btn => btn.classList.remove("selected"))
+    verifyButton(btn.id);
+    btn.classList.add("selected");
+}));
+    
+
+function verifyButton(btnId) {
+    switch(btnId) {
+        case "black": 
+            currentBrush = "black";
+            break;
+        case "rainbow":
+            currentBrush = "rainbow";
+            break;
+        case "erase":
+            currentBrush = "erase";
+            break;
+        case "clear":
+            btn.classList.remove("selected");
+            divs.forEach(div => {
+                div.style.background = "white";
+                
+            })
+            break;
     }
-});
+}
 
 createGrid(gridSize);
 
